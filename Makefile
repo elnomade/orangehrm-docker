@@ -49,7 +49,7 @@ rundocker:
 	-v $(TMP):/tmp \
 	-d \
 	-P \
-	--link `cat NAME`-mysl:mysql \
+	--link `cat NAME`-mysql:mysql \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
 	-t $(TAG)
