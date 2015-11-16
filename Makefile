@@ -49,6 +49,7 @@ rundocker:
 	-v $(TMP):/tmp \
 	-d \
 	-P \
+	--link `cat NAME`-mysl:mysql \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
 	-t $(TAG)
@@ -58,6 +59,9 @@ builddocker:
 
 kill:
 	-@docker kill `cat cid`
+
+mysqlcid:
+	docker run --cid="mysqlcid" --name `cat NAME`-mysql -e MYSQL_ROOT_PASSWORD=`cat NAME` -d mysql:latest
 
 rm-image:
 	-@docker rm `cat cid`
