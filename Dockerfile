@@ -32,5 +32,9 @@ RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar
 	&& rm drupal.tar.gz \
 	&& chown -R www-data:www-data sites
 
-RUN wget http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Forangehrm%2F%3Fsource%3Dtyp_redirect&ts=1447696468&use_mirror=tcpdiag
+RUN apt-get update; apt-get install -y unzip
+# RUN wget http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Forangehrm%2F%3Fsource%3Dtyp_redirect&ts=1447696468&use_mirror=tcpdiag
+RUN rm -Rf /var/www/html/*
+COPY orangehrm-3.3.2.zip /var/www/html/
+RUN ls -lh;sleep 5
 RUN unzip orangehrm*zip; mv orangehrm-3.3.2/* ./ ; mv orangehrm-3.3.2/.htaccess ./;
