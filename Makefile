@@ -19,7 +19,7 @@ help:
 
 build: NAME TAG builddocker
 
-run: build rundocker
+run: build mysqlcid rundocker
 
 ## useful hints
 ## specifiy ports
