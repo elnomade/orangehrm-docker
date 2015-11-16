@@ -1,5 +1,5 @@
 # from https://www.drupal.org/requirements/php#drupalversions
-FROM php:5.4-apache
+FROM php:5.6-apache
 
 RUN a2enmod rewrite
 
@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev unzi
 	&& rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
+
+RUN docker-php-ext-install mysql
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -35,5 +37,7 @@ WORKDIR /var/www/html
 # RUN wget http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Forangehrm%2F%3Fsource%3Dtyp_redirect&ts=1447696468&use_mirror=tcpdiag
 RUN rm -Rf /var/www/html/*
 COPY orangehrm-3.3.2.zip /var/www/html/
-RUN ls -lh;sleep 5
+# RUN ls -lh;sleep 5
 RUN unzip orangehrm*zip; mv orangehrm-3.3.2/* ./ ; mv orangehrm-3.3.2/.htaccess ./;
+#COPY kimai_0.9.3.zip /var/www/html/
+#RUN unzip kimai*zip
