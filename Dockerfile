@@ -4,7 +4,7 @@ FROM php:5.4-apache
 RUN a2enmod rewrite
 
 # install the PHP extensions we need
-RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev \
+RUN apt-get update && apt-get install -y libpng12-dev libjpeg-dev libpq-dev unzip \
 	&& rm -rf /var/lib/apt/lists/* \
 	&& docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
 	&& docker-php-ext-install gd mbstring opcache pdo pdo_mysql pdo_pgsql zip
@@ -23,16 +23,15 @@ RUN { \
 WORKDIR /var/www/html
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.0.0-rc4
-ENV DRUPAL_MD5 33a4738989e4b571176e47d26443cb26
+#ENV DRUPAL_VERSION 8.0.0-rc4
+#ENV DRUPAL_MD5 33a4738989e4b571176e47d26443cb26
 
-RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
-	&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
-	&& tar -xz --strip-components=1 -f drupal.tar.gz \
-	&& rm drupal.tar.gz \
-	&& chown -R www-data:www-data sites
+#RUN curl -fSL "http://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz \
+	#&& echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c - \
+	#&& tar -xz --strip-components=1 -f drupal.tar.gz \
+	#&& rm drupal.tar.gz \
+	#&& chown -R www-data:www-data sites
 
-RUN apt-get update; apt-get install -y unzip
 # RUN wget http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Forangehrm%2F%3Fsource%3Dtyp_redirect&ts=1447696468&use_mirror=tcpdiag
 RUN rm -Rf /var/www/html/*
 COPY orangehrm-3.3.2.zip /var/www/html/
