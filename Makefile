@@ -61,7 +61,7 @@ kill:
 	-@docker kill `cat cid`
 
 mysqlcid:
-	docker run --cid="mysqlcid" --name `cat NAME`-mysql -e MYSQL_ROOT_PASSWORD=`cat NAME` -d mysql:latest
+	docker run --cidfile="mysqlcid" --name `cat NAME`-mysql -e MYSQL_ROOT_PASSWORD=`cat NAME` -d mysql:latest
 
 rm-image:
 	-@docker rm `cat cid`
