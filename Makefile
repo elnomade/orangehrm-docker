@@ -51,7 +51,7 @@ rundocker:
 	-v $(TMP):/tmp \
 	-d \
 	-P \
-	--link `cat NAME`-mysql:mysql \
+	--link `cat NAME`-mysqlbare:mysql \
 	-v /var/run/docker.sock:/run/docker.sock \
 	-v $(shell which docker):/bin/docker \
 	-t $(TAG)
@@ -76,6 +76,9 @@ grab:
 	-mkdir -p datadir
 	docker cp `cat cid`:/var/www/html datadir/
 	docker cp `cat mysqlbare`:/var/lib/mysql datadir/
+	-rm -Rf datadir/html/installer
+	sudo chown -R www-data. datadir/html
+	sudo chown -R bob. datadir/mysql
 	echo `pwd`/datadir/mysql > MYSQL_DATADIR
 	echo `pwd`/datadir/html > APACHE_DATADIR
 
@@ -88,7 +91,7 @@ kill:
 mysqlbare:
 	docker run \
 	--cidfile="mysqlbare" \
-	--name `cat NAME`-mysql \
+	--name `cat NAME`-mysqlbare \
 	-e MYSQL_ROOT_PASSWORD=`cat MYSQL_PASS` \
 	-d \
 	mysql:5.5
@@ -108,13 +111,21 @@ rm-image:
 
 rm: kill rm-image
 
+rmmysql: mysqlcid-rmkill
+
+mysqlcid-rmkill:
+	-@docker kill `cat mysqlcid`
+	-@docker rm `cat mysqlcid`
+	-@rm mysqlcid
+
 rmbare: mysqlbare-rmkill
 
 mysqlbare-rmkill:
 	-@docker kill `cat mysqlbare`
 	-@docker rm `cat mysqlbare`
+	-@rm mysqlbare
 
-clean: rm
+clean: rm rmbare rmmysql
 
 enter:
 	docker exec -i -t `cat cid` /bin/bash
