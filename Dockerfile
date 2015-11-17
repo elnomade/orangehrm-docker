@@ -37,9 +37,9 @@ WORKDIR /var/www/html
 # RUN wget http://downloads.sourceforge.net/project/orangehrm/stable/3.3.2/orangehrm-3.3.2.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Forangehrm%2F%3Fsource%3Dtyp_redirect&ts=1447696468&use_mirror=tcpdiag
 RUN rm -Rf /var/www/html/*
 # RUN ls -lh;sleep 5
-#COPY orangehrm-3.3.2.zip /var/www/html/
-#RUN unzip orangehrm*zip; mv orangehrm-3.3.2/* ./ ; mv orangehrm-3.3.2/.htaccess ./;
-#RUN cd /var/www/html; bash fix_permissions.sh
-COPY kimai_0.9.3.zip /var/www/html/
-RUN unzip kimai*zip
+COPY orangehrm-3.3.2.zip /var/www/html/
+RUN unzip orangehrm*zip; mv orangehrm-3.3.2/* ./ ; mv orangehrm-3.3.2/.htaccess ./;
+RUN cd /var/www/html; bash fix_permissions.sh
+#COPY kimai_0.9.3.zip /var/www/html/
+#RUN unzip kimai*zip
 RUN chown -R www-data. /var/www
