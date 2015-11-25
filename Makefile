@@ -19,9 +19,12 @@ help:
 
 build: NAME TAG builddocker
 
-run: MYSQL_PASS rm build mysqlbare rundocker
+run: MYSQL_PASS rm build mysqlbare rundocker ps
 
-prod: MYSQL_DATADIR MYSQL_PASS rm build mysqlcid runprod
+prod: MYSQL_DATADIR MYSQL_PASS rm build mysqlcid runprod ps
+
+ps:
+	docker ps
 
 ## useful hints
 ## specifiy ports
@@ -126,6 +129,8 @@ mysqlbare-rmkill:
 	-@rm mysqlbare
 
 clean: rm rmbare rmmysql
+
+rmall: rm rmmysql rmbare
 
 enter:
 	docker exec -i -t `cat cid` /bin/bash

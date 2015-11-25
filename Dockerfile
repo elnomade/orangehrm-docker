@@ -43,3 +43,4 @@ RUN cd /var/www/html; bash fix_permissions.sh
 #COPY kimai_0.9.3.zip /var/www/html/
 #RUN unzip kimai*zip
 RUN chown -R www-data. /var/www
+COPY php.ini /usr/local/etc/php/
